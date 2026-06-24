@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LexiFlow.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace LexiFlow.DAL.Entities;
@@ -13,7 +14,7 @@ public partial class Card
 
     public Guid DeckId { get; set; }
 
-    public int CardType { get; set; }
+    public CardType CardType { get; set; }
 
     [StringLength(300)]
     public string Term { get; set; } = null!;
@@ -26,7 +27,7 @@ public partial class Card
 
     public bool IsPublic { get; set; }
 
-    public int SourceType { get; set; }
+    public CardSourceType SourceType { get; set; }
 
     public Guid? SourceCardId { get; set; }
 

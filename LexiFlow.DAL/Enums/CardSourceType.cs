@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LexiFlow.BLL.Enums
+namespace LexiFlow.DAL.Enums
 {
-    public enum ReviewMode
+    public enum CardSourceType
     {
-        Flashcard, 
-        MultipleChoice,
-        FillBlank
-
+        Manual = 1, 
+        Dictionary = 2,
+        PublicCard = 3 
     }
+
 }

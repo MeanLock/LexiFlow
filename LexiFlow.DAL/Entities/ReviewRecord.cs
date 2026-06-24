@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using LexiFlow.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace LexiFlow.DAL.Entities;
@@ -17,7 +18,7 @@ public partial class ReviewRecord
 
     public Guid CardId { get; set; }
 
-    public int ReviewMode { get; set; }
+    public ReviewMode ReviewMode { get; set; }
 
     public int Rating { get; set; }
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LexiFlow.BLL.Enums
+namespace LexiFlow.DAL.Enums
 {
     public enum CardType
     {

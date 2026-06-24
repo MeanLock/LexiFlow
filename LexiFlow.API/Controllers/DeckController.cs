@@ -52,6 +52,21 @@ namespace LexiFlow.API.Controllers
             return decks;
         }
 
+        [HttpGet("{id}")]
+        public async Task<DeckResponse> GetDeck(Guid id)
+        {
+            var userClaims = HttpContext.User;
+            var userIdClaim = userClaims.FindFirst("UserId");
+
+            if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out Guid userId))
+            {
+                throw new ForbiddenException();
+            }
+
+            var decks = await _deckService.GetDeckByIdAsync(userId, id);
+            return decks;
+        }
+
         [HttpPut("{id}")]
         public async Task<ResponseResult> UpdateDeck(Guid id, [FromBody] UpdateDeckRequest request)
         {
@@ -63,7 +78,7 @@ namespace LexiFlow.API.Controllers
                 throw new ForbiddenException();
             }
 
-            var result = await _deckService.UpdateDeckAsync(userId, request);
+            var result = await _deckService.UpdateDeckAsync(userId, id, request);
             return result;
         }
 

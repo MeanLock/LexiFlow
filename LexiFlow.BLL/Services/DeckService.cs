@@ -55,10 +55,10 @@ namespace LexiFlow.BLL.Services
             return ResponseResult.Success("Deck created successfully.");
         }
 
-        public async Task<ResponseResult> UpdateDeckAsync(Guid userId, UpdateDeckRequest request)
+        public async Task<ResponseResult> UpdateDeckAsync(Guid userId, Guid deckId, UpdateDeckRequest request)
         {
             var deck = await _deckRepository.FindSingleAsync(
-                x => x.Id == request.Id
+                x => x.Id == deckId
                   && x.OwnerId == userId
                   && !x.IsDeleted);
 

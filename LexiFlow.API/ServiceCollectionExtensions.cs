@@ -34,9 +34,8 @@ namespace LexiFlow.API
                 });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdminOnly", policyBuilder => policyBuilder.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "Role") && context.User.FindFirst(claim => claim.Type == "Role").Value == "Admin"));
-
-                options.AddPolicy("LearnerOnly", policyBuilder => policyBuilder.RequireAssertion(context => context.User.HasClaim(claim => claim.Type == "Role") && context.User.FindFirst(claim => claim.Type == "Role").Value == "Learner"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("LearnerOnly", policy => policy.RequireRole("Learner"));
             });
         }
 

@@ -1,4 +1,5 @@
 using LexiFlow.API;
+using LexiFlow.API.Middlewares;
 using LexiFlow.BLL;
 using LexiFlow.BLL.Models;
 using LexiFlow.BLL.Models.Emails;
@@ -72,6 +73,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

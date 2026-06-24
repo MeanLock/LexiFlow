@@ -12,7 +12,7 @@ namespace LexiFlow.BLL.Services
     {
         Task<ResponseResult> AddDeckAsync(Guid userId, CreateDeckRequest request);
 
-        Task<ResponseResult> UpdateDeckAsync(Guid userId, UpdateDeckRequest request);
+        Task<ResponseResult> UpdateDeckAsync(Guid userId, Guid deckId, UpdateDeckRequest request);
 
         Task<ResponseResult> DeleteDeckAsync(Guid userId, Guid deckId);
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace LexiFlow.DAL.Enums
 {
+
     public enum CardType
     {
         Vocabulary = 1, // Từ vựng đơn

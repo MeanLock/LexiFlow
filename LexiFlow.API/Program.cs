@@ -3,9 +3,11 @@ using LexiFlow.API.Middlewares;
 using LexiFlow.BLL;
 using LexiFlow.BLL.Models;
 using LexiFlow.BLL.Models.Emails;
+using LexiFlow.BLL.Services;
 using LexiFlow.DAL;
 using LexiFlow.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +59,29 @@ builder.Services.Configure<EmailSettings>(
 builder.Services.Configure<JwtOption>(
     builder.Configuration.GetSection("JwtOption"));
 
+// Dictionary
+builder.Services.Configure<DictionaryAPIOption>(
+    builder.Configuration.GetSection(
+        DictionaryAPIOption.SectionName));
+
+// Register Client
+builder.Services.AddHttpClient<IWordsApiClient, WordsApiClient>(
+    (sp, client) =>
+    {
+        var options =
+            sp.GetRequiredService<IOptions<DictionaryAPIOption>>().Value;
+
+        client.BaseAddress =
+            new Uri("https://wordsapiv1.p.rapidapi.com/");
+
+        client.DefaultRequestHeaders.Add(
+            "x-rapidapi-key",
+            options.ApiKey);
+
+        client.DefaultRequestHeaders.Add(
+            "x-rapidapi-host",
+            "wordsapiv1.p.rapidapi.com");
+    });
 
 builder.Services.AddDbContext<LexiFlowDbContext>(options =>
     options.UseSqlServer(

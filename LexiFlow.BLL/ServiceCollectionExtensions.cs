@@ -14,6 +14,7 @@ namespace LexiFlow.BLL
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IDeckService, DeckService>();
 
         }
 

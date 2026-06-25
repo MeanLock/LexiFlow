@@ -13,3 +13,4 @@ namespace LexiFlow.BLL.Models
         public string ApiKey { get; set; } = string.Empty;
     }
 }
+

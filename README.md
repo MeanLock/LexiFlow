@@ -1,391 +1,255 @@
-# LexiFlow - Vocabulary Learning Platform
+# LexiFlow
 
-An intelligent vocabulary learning platform inspired by Anki, designed to help language learners acquire and retain vocabulary more effectively through spaced repetition, automated dictionary integration, and interactive learning activities.
-
----
-
-## Overview
-
-Traditional flashcard applications such as Anki are powerful but often difficult for new users due to manual setup requirements, limited guidance, and a steep learning curve.
-
-This project aims to provide a more user-friendly learning experience by automating vocabulary collection, generating learning materials from trusted dictionary sources, and supporting multiple learning modes beyond simple flashcards.
+An intelligent vocabulary learning platform inspired by Anki that helps language learners build and retain vocabulary more efficiently through spaced repetition, automated dictionary integration, and interactive review activities.
 
 ---
 
-## Objectives
-
-### Learning Objectives
-
-- Practice ASP.NET Core backend development
-    
-- Apply Clean Architecture principles
-    
-- Design scalable database structures
-    
-- Implement authentication and authorization
-    
-- Integrate third-party APIs
-    
-- Build a modern React frontend
-    
-
-### Product Objectives
-
-- Reduce time spent creating flashcards
-    
-- Automate vocabulary enrichment
-    
-- Improve vocabulary retention through spaced repetition
-    
-- Support multiple review methods
-    
-- Track daily learning progress
-    
-
----
-
-## Core Features
+## Features
 
 ### Authentication
 
-- User registration
-    
-- Login with JWT authentication
-    
-- Refresh token support
-    
-- User profile management
-    
-
----
+* User registration
+* JWT authentication
+* OAuth2 with Google
+* User profile management
 
 ### Vocabulary Management
 
-Users can:
+* Create, edit, and delete vocabulary cards
+* Organize cards into decks
+* Search vocabulary
+* Public and private decks (planned)
 
-- Create vocabulary entries
-    
-- Edit vocabulary entries
-    
-- Delete vocabulary entries
-    
-- Organize words into decks
-    
-- Search vocabulary
-    
+Each card may contain:
 
-Each vocabulary item may contain:
-
-- Word
-    
-- IPA pronunciation
-    
-- Definitions
-    
-- Examples
-    
-- Synonyms
-    
-- Antonyms
-    
-- CEFR level
-    
-- Audio pronunciation
-    
-
----
+* Word
+* IPA pronunciation
+* Definitions
+* Examples
+* Synonyms
+* Antonyms
+* CEFR level
+* Audio pronunciation
 
 ### Dictionary Integration
 
-When a user adds a new word:
+When a user creates a new vocabulary card, LexiFlow allows users to retrieve information from external dictionary APIs, including:
 
-1. System searches dictionary APIs
-    
-2. Retrieves:
-    
-    - Definitions
-        
-    - Examples
-        
-    - IPA
-        
-    - Audio pronunciation
-        
-3. Automatically generates learning content
-    
+* Definitions
+* IPA pronunciation
+* Examples
+* Audio pronunciation
 
-Potential integrations:
+Current integration:
 
-- Free Dictionary API
-    
-- Merriam-Webster API
-    
-- Oxford API
-    
-- Cambridge API (if available)
-    
+* WordsAPI
 
----
+Future integrations:
 
-### Study System
+* Free Dictionary API
+* Oxford Dictionary API
+* Cambridge Dictionary API
+* Shared dictionary definitions across users
 
-Supported review modes:
+### Study Modes
 
-#### Flashcard
-
-Front side:
-
-- Word
-    
-
-Back side:
-
-- Meaning
-    
-- Example
-    
-- Pronunciation
-    
-
-#### Multiple Choice
-
-Example:
-
-What does "meticulous" mean?
-
-A. Careless  
-B. Precise ✅  
-C. Lazy  
-D. Reckless
-
-#### Fill In The Blank
-
-Example:
-
-He is a very ______ engineer.
-
-Answer:
-
-meticulous
-
----
+* Flashcards
+* Multiple Choice (planned)
+* Fill in the Blank (planned)
 
 ### Spaced Repetition
 
-Initial implementation:
+SM-2 inspired algorithm.
 
-SM-2 inspired algorithm
+Each review updates:
 
-Review buttons:
+* Review interval
+* Ease factor
+* Next review date
 
-- Again
-    
-- Hard
-    
-- Good
-    
-- Easy
-    
+Review options:
 
-System calculates:
+* Again
+* Hard
+* Good
+* Easy
 
-- Next review date
-    
-- Ease factor
-    
-- Review interval
-    
+### Dashboard
+
+* Daily review progress
+* Learning streak
+* Review statistics
 
 ---
 
-### Daily Goals
+# Technology Stack
 
-Users can configure:
+## Backend
 
-- New words per day
-    
-- Reviews per day
-    
-- Study reminders
-    
+* ASP.NET Core Web API
+* Entity Framework Core
+* SQL Server
+* JWT Authentication
 
-Dashboard shows:
+## Frontend
 
-- Daily progress
-    
-- Streak count
-    
-- Review completion
-    
+* React
+* TypeScript
+* Redux Toolkit
+* React Query
+* Tailwind CSS
+* shadcn/ui
 
----
+## Infrastructure
 
-### Audio Support
-
-Priority order:
-
-1. Dictionary audio
-    
-2. Generated TTS audio
-    
-
-Potential providers:
-
-- Azure Speech Service
-    
-- Google Text-to-Speech
-    
+* Azure (planned)
+* Docker (planned)
+* Cloudflare R2 (optional)
 
 ---
 
-## Technical Architecture
+# Project Architecture
 
-### Backend
+The backend follows a traditional **three-layer architecture**.
 
-- ASP.NET Core Web API
-    
-- Entity Framework Core
-    
-- SQL Server
-    
-- JWT Authentication
-    
-- FluentValidation
-    
-- AutoMapper
-    
+```text
+                React Client
+                     │
+                     ▼
+             LexiFlow.API
+      (Controllers, Authentication,
+      Middleware, Swagger)
+                     │
+                     ▼
+             LexiFlow.BLL
+      (Business Logic, Services,
+      Models, Validation)
+                     │
+                     ▼
+             LexiFlow.DAL
+      (EF Core, DbContext,
+      Entities, Migrations)
+                     │
+                     ▼
+                SQL Server
+```
 
-### Frontend
+## Layer Responsibilities
 
-- React
-    
-- TypeScript
-    
-- Redux Toolkit
-    
-- React Query
-    
-- TailwindCSS
-    
-- ShadCN UI
-    
+### LexiFlow.API
 
-### Infrastructure
+* Exposes RESTful APIs
+* Handles authentication and authorization
+* Configures middleware and dependency injection
+* Receives requests and returns responses
 
-- Azure
-    
-- Cloudflare R2 (optional)
-    
-- Docker (future)
-    
+### LexiFlow.BLL
 
----
+* Contains business logic
+* Implements application services
+* Performs validation
+* Maps DTOs and entities
+* Coordinates application workflows
 
-## Database Modules
+### LexiFlow.DAL
 
-### Identity
-
-- Users
-    
-- Roles
-    
-- Refresh Tokens
-    
-
-### Learning
-
-- Decks
-    
-- Vocabulary
-    
-- Review Sessions
-    
-- Review Records
-    
-
-### Dictionary
-
-- Definitions
-    
-- Examples
-    
-- Pronunciations
-    
-- Audio Assets
-    
+* Handles data persistence
+* Defines EF Core entities
+* Contains DbContext and configurations
+* Executes database operations
 
 ---
 
-## Project Status
+# Database Modules
 
-### Phase 1 (MVP)
+## Identity
 
--  Authentication
-    
--  User Management
-    
--  Deck Management
-    
--  Vocabulary CRUD
-    
--  Dictionary API Integration
-    
--  Review Session
-    
--  Flashcard Mode
-    
--  Basic Spaced Repetition
-    
+* Users
+* Roles
 
-### Phase 2
+## Learning
 
--  Multiple Choice Review
-    
--  Fill In Blank Review
-    
--  Daily Goals
-    
--  Statistics Dashboard
-    
--  Audio Generation
-    
-
-### Phase 3
-
--  AI Example Generation
-    
--  Adaptive Learning Algorithm
-    
--  Mobile Application
-    
--  Browser Extension
-    
+* Decks
+* Cards
+* Review Sessions
+* Review Records
 
 ---
 
-## Future Improvements
+# Roadmap
 
-- AI-generated examples
-    
-- AI-generated quizzes
-    
-- Personalized review intervals
-    
-- IELTS vocabulary packs
-    
-- TOEIC vocabulary packs
-    
-- Community shared decks
-    
-- Mobile application
-    
+## MVP
+
+* Authentication
+* User management
+* Deck CRUD
+* Cards CRUD
+* WordsAPI integration
+* Flashcard review
+* Basic spaced repetition
+
+## Future
+
+* Multiple Choice review
+* Fill in the Blank review
+* Daily goals
+* Statistics dashboard
+* AI-generated examples
+* AI-generated quizzes
+* Adaptive learning algorithm
+* Mobile application
+* Browser extension
 
 ---
 
-## Author
+# Getting Started
 
-Hoàng Minh Lộc
+## Backend
+
+```bash
+git clone https://github.com/MeanLock/LexiFlow.git
+
+cd LexiFlow
+
+dotnet restore
+
+dotnet ef database update
+
+dotnet run --project LexiFlow.API
+```
+
+## Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# Configuration
+
+Sensitive information such as:
+
+* API Keys
+* SMTP Passwords
+* Connection Strings
+* WordsAPI Api Key
+
+should be stored using:
+
+* User Secrets (Development)
+* Environment Variables (Production)
+
+---
+
+# Author
+
+**Hoàng Minh Lộc**
 
 Final Year Software Engineering Student
 
-ASP.NET Core | React | SQL Server
+**ASP.NET Core • React • SQL Server**

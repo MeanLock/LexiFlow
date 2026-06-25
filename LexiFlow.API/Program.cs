@@ -71,6 +71,8 @@ builder.Services.AddHttpClient<IWordsApiClient, WordsApiClient>(
         var options =
             sp.GetRequiredService<IOptions<DictionaryAPIOption>>().Value;
 
+        Console.WriteLine("WORDS API KEY = [" + options.ApiKey + "]");
+
         client.BaseAddress =
             new Uri("https://wordsapiv1.p.rapidapi.com/");
 

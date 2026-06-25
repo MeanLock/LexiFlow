@@ -29,7 +29,7 @@ namespace LexiFlow.API.Controllers
                 await _dictionaryService.GetWordDefinitionAsync(
                     word,
                     cancellationToken);
-
+            Console.WriteLine($"Result: {result}");
             if (result is null)
             {
                 return NotFound();

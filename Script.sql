@@ -289,3 +289,6 @@ CREATE TABLE ReviewRecords
         FOREIGN KEY (CardId)
         REFERENCES Cards(Id)
 );
+
+CREATE UNIQUE INDEX IX_ReviewStates_UserId_CardId
+ON ReviewStates(UserId, CardId);

@@ -32,7 +32,6 @@ namespace LexiFlow.DAL.Repositories
                 }
             }
 
-
             if (predicate != null)
             {
                 items = items.Where(predicate);

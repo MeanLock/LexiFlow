@@ -20,7 +20,7 @@ public partial class ReviewRecord
 
     public ReviewMode ReviewMode { get; set; }
 
-    public int Rating { get; set; }
+    public ReviewRating Rating { get; set; }
 
     public string? AnswerText { get; set; }
 

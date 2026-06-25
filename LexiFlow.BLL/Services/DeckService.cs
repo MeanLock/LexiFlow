@@ -26,8 +26,7 @@ namespace LexiFlow.BLL.Services
         public DeckService(
             IGenericRepository<Deck> deckRepository,
             IGenericRepository<Card> cardRepository,
-            IUnitOfWork unitOfWork,
-            IConfiguration config)
+            IUnitOfWork unitOfWork)
         {
             _deckRepository = deckRepository;
             _cardRepository = cardRepository;
@@ -45,7 +44,7 @@ namespace LexiFlow.BLL.Services
                 Description = request.Description,
                 IsDeleted = false,
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = null
             };
 
             _deckRepository.Add(deck);

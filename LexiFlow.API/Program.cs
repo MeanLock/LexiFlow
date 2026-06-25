@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddRepositoryUnitOfWork();
 builder.Services.AddServices();
 builder.Services.AddJwtAuthentication(builder.Configuration);
-
+builder.Services.AddHttpClient();
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 builder.Services.Configure<JwtOption>(

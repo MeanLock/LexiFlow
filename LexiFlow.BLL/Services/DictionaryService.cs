@@ -1,8 +1,11 @@
-﻿using LexiFlow.BLL.Models.Dictionaries;
+﻿using LexiFlow.BLL.Models.Card;
+using LexiFlow.BLL.Models.Dictionaries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace LexiFlow.BLL.Services
@@ -10,11 +13,14 @@ namespace LexiFlow.BLL.Services
     public class DictionaryService : IDictionaryService
     {
         private readonly IWordsApiClient _wordsApiClient;
+        private readonly HttpClient _httpClient;
+
 
         public DictionaryService(
-            IWordsApiClient wordsApiClient)
+            IWordsApiClient wordsApiClient, HttpClient httpClient)
         {
             _wordsApiClient = wordsApiClient;
+            _httpClient = httpClient;   
         }
 
         public async Task<WordDefinitionResponseModel?> GetWordDefinitionAsync(
@@ -78,5 +84,69 @@ namespace LexiFlow.BLL.Services
                     .ToList()
             };
         }
+
+        public async Task<DictionaryResponse?> GetMeaningAsync(string term)
+        {
+            var url =
+                $"https://api.dictionaryapi.dev/api/v2/entries/en/{Uri.EscapeDataString(term)}";
+
+            var response = await _httpClient.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var dictionaryData =
+                JsonSerializer.Deserialize<List<DictionaryApiResponse>>(
+                    json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+            var entry = dictionaryData?.FirstOrDefault();
+
+            if (entry == null)
+            {
+                return null;
+            }
+
+            var result = new DictionaryResponse
+            {
+                Phonetic = entry.Phonetic,
+
+                AudioUrl = entry.Phonetics?
+                    .FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Audio))
+                    ?.Audio
+            };
+
+            if (entry.Meanings != null)
+            {
+                foreach (var meaning in entry.Meanings)
+                {
+                    var firstDefinition =
+                        meaning.Definitions?.FirstOrDefault();
+
+                    result.Meanings.Add(new DictionaryMeaningResponse
+                    {
+                        PartOfSpeech = meaning.PartOfSpeech ?? string.Empty,
+
+                        Definition = firstDefinition?.Definition,
+
+                        Example = firstDefinition?.Example,
+
+                        Synonyms = firstDefinition?.Synonyms ?? [],
+
+                        Antonyms = firstDefinition?.Antonyms ?? []
+                    });
+                }
+            }
+
+            return result;
+        }
+
     }
 }

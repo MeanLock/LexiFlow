@@ -37,5 +37,26 @@ namespace LexiFlow.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("dictionary-api")]
+        public async Task<IActionResult> GetMeaning(
+            [FromQuery] string word,
+            CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrWhiteSpace(word))
+            {
+                return BadRequest("Word is required.");
+            }
+
+            var result =
+                await _dictionaryService.GetMeaningAsync(word);
+            Console.WriteLine($"Result: {result}");
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
     }
 }

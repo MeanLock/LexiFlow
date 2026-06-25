@@ -1,4 +1,5 @@
-﻿using LexiFlow.BLL.Models.Dictionaries;
+﻿using LexiFlow.BLL.Models.Card;
+using LexiFlow.BLL.Models.Dictionaries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,8 @@ namespace LexiFlow.BLL.Services
         Task<WordDefinitionResponseModel?> GetWordDefinitionAsync(
         string word,
         CancellationToken cancellationToken = default);
+
+        Task<DictionaryResponse?> GetMeaningAsync(string term);
+
     }
 }
